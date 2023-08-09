@@ -1,16 +1,30 @@
-# This is a sample Python script.
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import pandas as pd
+from hash_table import HashTable
+from package import Package
 
 
-# Press the green button in the gutter to run the script.
+distance_data = pd.read_excel("Resources\\WGUPS Distance Table.xlsx")
+
+
+def load_hash_table():
+    package_data = pd.read_excel("Resources\\WGUPS Package File.xlsx")
+    table = HashTable()
+
+    for index, row in package_data.iterrows():
+        if type(row[0]) != int:
+            continue
+
+        package = Package(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
+        print(package.package_id)
+        table.put(package.package_id, package)
+
+
+def find_distance(row, column):
+    return distance_data.iloc[row, column]
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    load_hash_table()
+    print("break")
+    print(find_distance(10, 3))
