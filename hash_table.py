@@ -5,11 +5,13 @@ class HashTable:
         self.load_factor = .75
         self.size = 0
         self.hash_table = self.create_buckets()
+        self.keys = []
 
     def create_buckets(self):
         return [[] for _ in range(self.capacity)]
 
     def put(self, key, value):
+        self.keys.append(key)
         hashed_key = self.hash_key(key)
         bucket = self.hash_table[hashed_key]
 
@@ -48,6 +50,7 @@ class HashTable:
 
     def remove(self, key):
         hashed_key = self.hash_key(key)
+        self.keys.remove(key)
 
         bucket = self.hash_table[hashed_key]
         found_key = False
@@ -62,9 +65,9 @@ class HashTable:
             bucket.pop(index)
 
     def resize(self):
-        print("resizing")
         self.capacity *= 2
         self.size = 0
+        self.keys.clear()
 
         old_hash_table = self.hash_table
         self.hash_table = self.create_buckets()
@@ -74,10 +77,19 @@ class HashTable:
                 bucket_key, bucket_value = record
                 self.put(bucket_key, bucket_value)
 
-        print("finished resizing")
-
     def hash_key(self, key):
         return (11 + hash(key) * 3 ^ 2) % self.capacity
+
+    def __iter__(self):
+        self.current_index = 0
+        return self
+
+    def __next__(self):
+        self.current_index += 1
+        if self.current_index >= len(self.keys):
+            raise StopIteration
+
+        return self.get(self.keys[self.current_index])
 
     # def __str__(self):
     #     output = ""
