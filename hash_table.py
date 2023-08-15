@@ -86,10 +86,10 @@ class HashTable:
 
     def __next__(self):
         self.current_index += 1
-        if self.current_index >= len(self.keys):
+        if self.current_index > len(self.keys):
             raise StopIteration
 
-        return self.get(self.keys[self.current_index])
+        return self.get(self.keys[self.current_index - 1])
 
     # def __str__(self):
     #     output = ""
