@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from hash_table import HashTable
+from utility.hash_table import HashTable
 from package import Package
 from truck import Truck
 from IPython.display import display

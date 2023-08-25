@@ -1,4 +1,5 @@
 
+
 class HashTable:
     def __init__(self):
         self.capacity = 16
@@ -78,7 +79,7 @@ class HashTable:
                 self.put(bucket_key, bucket_value)
 
     def hash_key(self, key):
-        return (11 + hash(key) * 3 ^ 2) % self.capacity
+        return (11 + hash(key) ^ 2) % self.capacity
 
     def __iter__(self):
         self.current_index = 0
