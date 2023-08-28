@@ -2,6 +2,7 @@
 # DATA STRUCTURES AND ALGORITHMS II — C950
 # Student: Richard Lane Fuerstenberg 010663034
 
+
 import pandas as pd
 import reporting
 from utility.hash_table import HashTable
@@ -12,12 +13,19 @@ from requirements.time_requirement import TimeRequirement
 from requirements.truck_requirement import TruckRequirement
 from truck import Truck
 import datetime
+import csv
 from utility import distance
 
 
 # loading self adjusting hash table for package records
 def load_hash_table():
     package_data = pd.read_excel("Resources\\WGUPS Package File.xlsx")
+    with open("Resources\\package_csv") as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            print(row)
+            print('\r\n')
+
     table = HashTable()
 
     # inserting all the packages into the hashmap
