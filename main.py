@@ -2,12 +2,10 @@
 # DATA STRUCTURES AND ALGORITHMS II — C950
 # Student: Richard Lane Fuerstenberg 010663034
 
-
-import pandas as pd
 import reporting
 from utility.hash_table import HashTable
-from candidates.insert_candidate import InsertCandidate
 from package import Package, Status
+from candidates.insert_candidate import InsertCandidate
 from requirements.group_requirement import GroupRequirement
 from requirements.time_requirement import TimeRequirement
 from requirements.truck_requirement import TruckRequirement
@@ -19,22 +17,17 @@ from utility import distance
 
 # loading self adjusting hash table for package records
 def load_hash_table():
-    package_data = pd.read_excel("Resources\\WGUPS Package File.xlsx")
-    with open("Resources\\package_csv") as csvfile:
+    table = HashTable()
+    with open("Resources/package.csv") as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
-            print(row)
-            print('\r\n')
+            if row[6] != 'EOD':
+                time = datetime.datetime.strptime(row[6], '%H:%M:%S').time()
+            else:
+                time = row[6]
 
-    table = HashTable()
-
-    # inserting all the packages into the hashmap
-    for index, row in package_data.iterrows():
-        if type(row[0]) != int:
-            continue
-
-        package = Package(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
-        table.put(package.package_id, package)
+            package = Package(int(row[1]), row[2], row[3], row[4], row[5], time, row[7], row[8])
+            table.put(package.package_id, package)
 
     return table
 
